@@ -1,5 +1,4 @@
-image:
-  file: .devcontainer/Dockerfile
+image: gitpod/workspace-full
 
 # List the ports you want to expose
 ports:
