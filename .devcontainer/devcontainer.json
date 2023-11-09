@@ -1,50 +1,39 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/java
 {
-	"name": "Java",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/java:1-21-bullseye",
-
+	"name": "Kubernetes - Minikube-in-Docker",
+	"dockerFile": "Dockerfile",
+	"runArgs": [
+		"--privileged"
+	],
+	"mounts": [
+		"source=minikube-var-lib-docker,target=/var/lib/docker,type=volume",
+		"source=minikube-config,target=/home/vscode/.minikube,type=volume"
+	],
+	"overrideCommand": false,
 	"features": {
+		"ghcr.io/devcontainers-contrib/features/quarkus-sdkman:2": {},
 		"ghcr.io/devcontainers/features/java:1": {
 			"version": "none",
 			"installMaven": "true",
 			"installGradle": "false"
-		},
-		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
-		"ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {},
-		"ghcr.io/devcontainers-contrib/features/quarkus-sdkman:2": {},
-		"ghcr.io/devcontainers/features/kubernetes-helm-minikube:1": {
-			"dockerFile": "Dockerfile",
-			"runArgs": ["--privileged"],
-			"mounts": [
-				"source=minikube-var-lib-docker,target=/var/lib/docker,type=volume",
-				"source=minikube-config,target=/home/vscode/.minikube,type=volume"
-			],
-			"overrideCommand": false,
-			"customizations": {
-				// Configure properties specific to VS Code.
-				"vscode": {
-					// Add the IDs of extensions you want installed when the container is created.
-					"extensions": [
-						"ms-azuretools.vscode-docker",
-						"ms-kubernetes-tools.vscode-kubernetes-tools"
-					]
-				}
-			}
 		}
-	}
-
+	},
+	// Configure tool-specific properties.
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				"ms-azuretools.vscode-docker",
+				"ms-kubernetes-tools.vscode-kubernetes-tools"
+			]
+		}
+	},
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
-
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "java -version",
-
-	// Configure tool-specific properties.
-	// "customizations": {},
-
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+	// "postCreateCommand": "kubectl version",
+	// Use 'postStartCommand' to run commands after the container is created like starting minikube.
+	// "postStartCommand": "nohup bash -c 'minikube start &' > minikube.log 2>&1",
+	// Minikube does not like running as root, so use a non-root user.
+	"remoteUser": "vscode"
 }
-
