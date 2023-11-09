@@ -1,0 +1,25 @@
+image:
+  file: .devcontainer/Dockerfile
+
+# List the ports you want to expose
+ports:
+  - port: 3000
+    onOpen: open-preview
+
+# List the VS Code extensions you want to install
+vscode:
+  extensions:
+    - dbaeumer.vscode-eslint
+    - esbenp.prettier-vscode
+
+# List the devcontainer CLI and Docker in Docker
+tasks:
+  - name: install devcontainer CLI
+    env:
+      NODE_ENV: development
+    init: |
+      curl -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/docker-in-docker-debian.sh | bash -s -- -y
+  - name: start Docker in Docker
+    command: dockerd-entrypoint.sh
+    init: true,
+    openMode: tab-after
